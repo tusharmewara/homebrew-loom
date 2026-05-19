@@ -1,16 +1,16 @@
 class Loom < Formula
   desc "Unified agentic ecosystem for sharing skills, sessions, and MCP servers"
-  homepage "https://github.com/yourusername/loom"
-  url "https://github.com/yourusername/loom/archive/refs/tags/v2.0.0.tar.gz"
-  sha256 "PLACEHOLDER_SHA256"
+  homepage "https://github.com/tusharmewara/loom"
+  url "https://github.com/tusharmewara/loom/releases/download/2.0.0/v2.0.0.tar.gz"
+  sha256 "dc3791f7bf71af25872da2c1707e3d1563e7227552de058242d2bf238f46c7b8"
   license "MIT"
 
   depends_on "rust" => :build
   depends_on "pkg-config" => :build
 
   def install
-    system "cargo", "install", *std_cargo_args(path: "loom-cli")
-    system "cargo", "install", *std_cargo_args(path: "loomd")
+    system "cargo", "install", *std_cargo_args(path: "crates/loom-cli")
+    system "cargo", "install", *std_cargo_args(path: "crates/loomd")
   end
 
   def post_install

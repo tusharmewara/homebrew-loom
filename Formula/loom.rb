@@ -9,7 +9,7 @@ class Loom < Formula
 
   # Bottle for macOS ARM64 and Intel
   bottle do
-    root_url "https://github.com/tusharmewara/homebrew-loom/releases/download/v2.0.0"
+    root_url "https://github.com/tusharmewara/loom/releases/download/v2.0.0"
     sha256 cellar: :any_skip_relocation, arm64_sequoia: "0000000000000000000000000000000000000000000000000000000000000000"
     sha256 cellar: :any_skip_relocation, arm64_sonoma: "0000000000000000000000000000000000000000000000000000000000000000"
     sha256 cellar: :any_skip_relocation, arm64_ventura: "0000000000000000000000000000000000000000000000000000000000000000"

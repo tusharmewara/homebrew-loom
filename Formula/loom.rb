@@ -1,8 +1,8 @@
 class Loom < Formula
   desc "Unified agentic ecosystem for sharing skills, sessions, and MCP servers"
   homepage "https://github.com/tusharmewara/loom"
-  url "https://github.com/tusharmewara/loom/releases/download/2.0.0/loom-2.0.0.tar.gz"
-  sha256 "dc3791f7bf71af25872da2c1707e3d1563e7227552de058242d2bf238f46c7b8"
+  url "https://github.com/tusharmewara/loom/archive/refs/tags/v2.0.0.tar.gz"
+  sha256 "d5558cd419c8d46bdc958064cb97f963d1ea793866414c025906ec15033512ed"
   license "MIT"
 
   depends_on "rust" => :build if build.from_source?

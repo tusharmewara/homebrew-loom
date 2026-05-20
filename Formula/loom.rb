@@ -7,6 +7,7 @@ class Loom < Formula
   license "MIT"
 
   bottle do
+    root_url "https://github.com/tusharmewara/loom/releases/download/v0.1.0"
     sha256 cellar: :any_skip_relocation, arm64_sequoia: "0000000000000000000000000000000000000000000000000000000000000000"
     sha256 cellar: :any_skip_relocation, arm64_sonoma:  "69ded4d3cf7fc0ff52a293bcdc41d9794e4052eee25a0775c45ce98325aba341"
     sha256 cellar: :any_skip_relocation, ventura:       "0000000000000000000000000000000000000000000000000000000000000000"

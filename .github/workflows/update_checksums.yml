@@ -1,0 +1,35 @@
+name: Update Formula Checksums
+
+on:
+  release:
+    types: [created, edited]
+
+permissions:
+  contents: write
+
+jobs:
+  update:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v6
+
+      - name: Wait for all bottles
+        run: sleep 300
+
+      - name: Extract version
+        id: vars
+        run: |
+          VERSION="${GITHUB_REF_NAME#v}"
+          echo "version=$VERSION" >> $GITHUB_OUTPUT
+
+      - name: Update checksums
+        run: |
+          bash scripts/update_formula_checksums.sh ${{ steps.vars.outputs.version }}
+
+      - name: Commit and push
+        run: |
+          git config user.name "github-actions[bot]"
+          git config user.email "github-actions[bot]@users.noreply.github.com"
+          git add Formula/loom.rb checksums.txt
+          git commit -m "Update bottle checksums for v${{ steps.vars.outputs.version }}" || echo "No changes to commit"
+          git push

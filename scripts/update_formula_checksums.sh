@@ -20,7 +20,7 @@ done
 
 # Get release data
 echo "Fetching release data from GitHub..."
-RELEASE_DATA=$(curl -s "https://api.github.com/repos/tusharmewara/loom/releases/latest")
+RELEASE_DATA=$(curl -s "https://api.github.com/repos/tusharmewara/homebrew-loom/releases/latest")
 if [ -z "$RELEASE_DATA" ]; then
   echo "Error: Could not fetch release data."
   exit 1

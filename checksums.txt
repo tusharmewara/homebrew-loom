@@ -1,0 +1,2 @@
+@sha256_arm64_sonoma = "69ded4d3cf7fc0ff52a293bcdc41d9794e4052eee25a0775c45ce98325aba341"
+@sha256_monterey = "583ffab430637bd486c266cb630cb02457a90becce0cbe950aefb1ad9605ea36"

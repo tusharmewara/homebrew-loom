@@ -20,13 +20,13 @@ class Loom < Formula
   end
 
   def post_install
-    # Ensure the default loom directory exists
-    loom_dir = HOMEBREW_PREFIX/".loom"
-    loom_dir.mkpath unless loom_dir.exist?
+    # ~/.loom is created by loomd on first run
+    # Users can run 'loom init' and 'loom scan' manually if needed
   end
 
   service do
     run [opt_bin/"loomd"]
+    working_dir Dir.home
     keep_alive true
     log_path var/"log/loomd.log"
     error_log_path var/"log/loomd.err.log"

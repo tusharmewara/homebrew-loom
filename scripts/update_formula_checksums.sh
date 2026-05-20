@@ -76,7 +76,7 @@ echo ""
 # Update formula automatically if Ruby is available
 if command -v ruby &>/dev/null; then
   echo "Updating formula automatically..."
-  ruby -e '
+ruby -e '
     checksums = {}
     if File.exist?("'"$OUTPUT_FILE"'")
       File.readlines("'"$OUTPUT_FILE"'").each do |l|
@@ -87,13 +87,24 @@ if command -v ruby &>/dev/null; then
     end
 
     content = File.read("'"$FORMULA_FILE"'")
+    lines = content.lines
+    # For each platform checksum, locate the url line containing the platform and replace the following sha256 line
     checksums.each do |platform, sha|
-      content.gsub!(
-        /(sha256 cellar: :any_skip_relocation,\s*#{platform}:\s*)"([^"]*)"/,
-        "\\1\"#{sha}\""
-      )
+      url_regex = /url\s+"[^"]*--#{platform}\.tar\.gz"/
+      lines.each_with_index do |line, idx|
+        if line =~ url_regex
+          # Find next line with sha256
+          (idx+1).upto(lines.size-1) do |j|
+            if lines[j] =~ /sha256\s+"[^"]*"/
+              lines[j] = lines[j].sub(/sha256\s+"[^"]*"/, "sha256 \"#{sha}\"")
+              break
+            end
+          end
+        end
+      end
     end
-    File.write("'"$FORMULA_FILE"'", content)
+    new_content = lines.join
+    File.write("'"$FORMULA_FILE"'", new_content)
   '
 
   echo "Formula updated successfully!"

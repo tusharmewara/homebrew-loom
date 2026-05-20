@@ -3,6 +3,7 @@ name: Update Formula Checksums
 on:
   release:
     types: [created, edited]
+  workflow_dispatch:
 
 permissions:
   contents: write

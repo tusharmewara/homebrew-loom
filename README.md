@@ -1,6 +1,6 @@
 # homebrew-loom
 
-Homebrew tap for [Loom](https://github.com/tusharmewara/loom) — the shared agentic ecosystem for AI tools.
+Homebrew tap for [Loom] — the shared agentic ecosystem for AI tools.
 
 ## Installation
 
@@ -53,7 +53,7 @@ Loom is a unified agentic ecosystem that enables seamless collaboration between 
 - **Credentials** — encrypted vault with ACLs
 - **Hooks** — intercept and modify tool behavior
 
-See the [main Loom repository](https://github.com/tusharmewara/loom) for full documentation.
+you may request for full documentation.
 
 ## Updating
 

@@ -5,12 +5,12 @@ class Loom < Formula
   license "MIT"
 
   on_arm do
-    url "https://github.com/tusharmewara/loom/releases/download/v0.1.0/loom--0.1.0--arm64_sonoma.tar.gz"
+    url "https://github.com/tusharmewara/homebrew-loom/releases/download/v0.1.0/loom--0.1.0--arm64_sonoma.tar.gz"
     sha256 "69ded4d3cf7fc0ff52a293bcdc41d9794e4052eee25a0775c45ce98325aba341"
   end
 
   on_intel do
-    url "https://github.com/tusharmewara/loom/releases/download/v0.1.0/loom--0.1.0--monterey.tar.gz"
+    url "https://github.com/tusharmewara/homebrew-loom/releases/download/v0.1.0/loom--0.1.0--monterey.tar.gz"
     sha256 "583ffab430637bd486c266cb630cb02457a90becce0cbe950aefb1ad9605ea36"
   end
 

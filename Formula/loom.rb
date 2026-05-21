@@ -8,9 +8,9 @@ class Loom < Formula
     root_url "https://github.com/tusharmewara/homebrew-loom/releases/download/v#{version}"
     rebuild 1
     sha256 cellar: :any, arm64_sequoia: "a91f3d749f269181794a7b593713d8cc1c703d1347c418ece3c33379234b9822"
-    sha256 cellar: :any, arm64_sonoma:  "a91f3d749f269181794a7b593713d8cc1c703d1347c418ece3c33379234b9822"
+    sha256 cellar: :any, arm64_sonoma:  "b84b9bb7b8424df3164c30aa21cae74092a873d67d893ac84cb4826dcc6a77f9"
     sha256 cellar: :any, ventura:       "c43670427f94397f045ad1a974fbe0564c782daf0545df91d5ee6619fa09305e"
-    sha256 cellar: :any, monterey:      "c43670427f94397f045ad1a974fbe0564c782daf0545df91d5ee6619fa09305e"
+    sha256 cellar: :any, monterey:      "39a93a2c778cd78addfb4cfdce1e0191db915f9a574ee12a973e38b373902c5a"
   end
 
   def install

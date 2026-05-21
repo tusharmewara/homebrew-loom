@@ -6,12 +6,12 @@ class Loom < Formula
 
   on_arm do
     url "https://github.com/tusharmewara/homebrew-loom/releases/download/v0.1.0/loom--0.1.0--arm64_sonoma.tar.gz"
-    sha256 "8f48eb4a9825c1dc44142d97eb1489feb6cbeab1823d8c1479fa5da6f2166e2f"
+    sha256 "cab71ef57be953b91bc0c5a3a0fcd2903196bf868e49ae599f3b68e1594f3b8e"
   end
 
   on_intel do
     url "https://github.com/tusharmewara/homebrew-loom/releases/download/v0.1.0/loom--0.1.0--monterey.tar.gz"
-    sha256 "47fae7d7e3d9bd71d599e96e724ecb6e82c3ac3445fcde2a128bee58728bf894"
+    sha256 "ad3af84504e2a7562e01e9641f0aae593ddfbe46eda9b188130c23ce32638722"
   end
 
   def install

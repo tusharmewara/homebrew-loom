@@ -74,6 +74,14 @@ echo ""
 
 # Update formula
 echo "Updating formula..."
+
+# Bump version
+perl -i -pe "s/(version\s+\")([^\"]+)(\")/\${1}$RELEASE_VERSION\${3}/" "$FORMULA_FILE"
+
+# Bump root_url version
+perl -i -pe "s|(root_url\s+\"https://github\.com/tusharmewara/homebrew-loom/releases/download/v)[^\"]+\"|\${1}$RELEASE_VERSION\"|" "$FORMULA_FILE"
+
+# Update sha256 for each platform
 while IFS='=' read -r platform sha; do
   [ -z "$platform" ] && continue
   echo "  Updating sha256 for $platform..."

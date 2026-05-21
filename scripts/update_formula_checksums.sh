@@ -81,6 +81,12 @@ perl -i -pe "s/(version\s+\")([^\"]+)(\")/\${1}$RELEASE_VERSION\${3}/" "$FORMULA
 # Bump root_url version
 perl -i -pe "s|(root_url\s+\"https://github\.com/tusharmewara/homebrew-loom/releases/download/v)[^\"]+\"|\${1}$RELEASE_VERSION\"|" "$FORMULA_FILE"
 
+# Update source url and sha256 from loom repo tag
+echo "  Updating source archive for v$RELEASE_VERSION..."
+perl -i -pe "s|(url\s+\"https://github\.com/tusharmewara/loom/archive/refs/tags/v)[^\"]+\"|\${1}$RELEASE_VERSION.tar.gz\"|" "$FORMULA_FILE"
+SOURCE_SHA=$(curl -sL "https://github.com/tusharmewara/loom/archive/refs/tags/v$RELEASE_VERSION.tar.gz" | shasum -a 256 | cut -d' ' -f1)
+perl -i -pe "s/(?<=^  sha256 \")[^\"]+/\L$SOURCE_SHA/" "$FORMULA_FILE"
+
 # Update sha256 for each platform
 while IFS='=' read -r platform sha; do
   [ -z "$platform" ] && continue

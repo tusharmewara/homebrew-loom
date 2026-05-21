@@ -4,14 +4,13 @@ class Loom < Formula
   version "0.1.0"
   license "MIT"
 
-  on_arm do
-    url "https://github.com/tusharmewara/homebrew-loom/releases/download/v0.1.0/loom--0.1.0--arm64_sonoma.tar.gz"
-    sha256 "cab71ef57be953b91bc0c5a3a0fcd2903196bf868e49ae599f3b68e1594f3b8e"
-  end
-
-  on_intel do
-    url "https://github.com/tusharmewara/homebrew-loom/releases/download/v0.1.0/loom--0.1.0--monterey.tar.gz"
-    sha256 "ad3af84504e2a7562e01e9641f0aae593ddfbe46eda9b188130c23ce32638722"
+  bottle do
+    root_url "https://github.com/tusharmewara/homebrew-loom/releases/download/v#{version}"
+    rebuild 1
+    sha256 cellar: :any, arm64_sequoia: "a91f3d749f269181794a7b593713d8cc1c703d1347c418ece3c33379234b9822"
+    sha256 cellar: :any, arm64_sonoma:  "a91f3d749f269181794a7b593713d8cc1c703d1347c418ece3c33379234b9822"
+    sha256 cellar: :any, ventura:       "c43670427f94397f045ad1a974fbe0564c782daf0545df91d5ee6619fa09305e"
+    sha256 cellar: :any, monterey:      "c43670427f94397f045ad1a974fbe0564c782daf0545df91d5ee6619fa09305e"
   end
 
   def install

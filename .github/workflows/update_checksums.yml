@@ -2,7 +2,7 @@ name: Update Formula Checksums
 
 on:
   release:
-    types: [created, edited]
+    types: [released]
   workflow_dispatch:
     inputs:
       version:

@@ -3,7 +3,6 @@ set -euo pipefail
 
 VERSION="${1:-0.1.0}"
 FORMULA_FILE="${2:-Formula/loom.rb}"
-OUTPUT_FILE="checksums.txt"
 
 echo "=== Loom Bottle Checksum Updater ==="
 echo "Version: $VERSION"
@@ -20,31 +19,29 @@ done
 
 # Get release data
 echo "Fetching release data from GitHub..."
-RELEASE_DATA=$(curl -s "https://api.github.com/repos/tusharmewara/homebrew-loom/releases/latest")
+RELEASE_DATA=$(curl -s "https://api.github.com/repos/tusharmewara/homebrew-loom/releases/tags/v$VERSION")
+
+# Fall back to latest
+if echo "$RELEASE_DATA" | jq -e '.message' &>/dev/null; then
+  echo "Tag v$VERSION not found, falling back to latest..."
+  RELEASE_DATA=$(curl -s "https://api.github.com/repos/tusharmewara/homebrew-loom/releases/latest")
+fi
+
 if [ -z "$RELEASE_DATA" ]; then
   echo "Error: Could not fetch release data."
   exit 1
 fi
 
-# Verify version matches
 RELEASE_VERSION=$(echo "$RELEASE_DATA" | jq -r '.tag_name' | sed 's/^v//')
-if [ "$RELEASE_VERSION" != "$VERSION" ]; then
-  echo "Warning: Release version ($RELEASE_VERSION) does not match requested version ($VERSION)."
-  read -p "Continue with $RELEASE_VERSION instead? (y/N): " -n 1 -r
-  echo
-  if [[ ! $REPLY =~ ^[Yy]$ ]]; then
-    exit 1
-  fi
-  VERSION="$RELEASE_VERSION"
-fi
+echo "Release tag: v$RELEASE_VERSION"
 
-# Filter assets: only bottles (tarballs with platform names)
+# Filter bottle assets
 echo "Filtering bottle assets..."
-echo "$RELEASE_DATA" | jq -r '.assets[] | select(.name | test("loom--'$VERSION'--[a-z0-9_]+.tar.gz")) | "\(.name) \(.browser_download_url)"' > assets_list.txt
+echo "$RELEASE_DATA" | jq -r '.assets[] | select(.name | test("loom--'$RELEASE_VERSION'\\.(arm64_sequoia|arm64_sonoma|ventura|monterey)\\.bottle\\.tar\\.gz$")) | "\(.name) \(.browser_download_url)"' > assets_list.txt
 
 if [ ! -s assets_list.txt ]; then
-  echo "No bottle assets found for version $VERSION."
-  echo "Make sure the release has bottle tarballs uploaded."
+  echo "No bottle assets found for version $RELEASE_VERSION."
+  cat assets_list.txt
   exit 1
 fi
 
@@ -52,68 +49,43 @@ echo "Found bottle assets:"
 cat assets_list.txt | sed 's/^/  - /'
 echo ""
 
-# Download and checksum
+# Download and compute checksums
 TMPDIR=$(mktemp -d)
 trap 'rm -rf "$TMPDIR"' EXIT
 
 echo "Downloading bottles and computing checksums..."
-> "$OUTPUT_FILE"
+> checksums.txt
 while read -r name url; do
   [ -z "$name" ] && continue
-  platform="${name#loom--$VERSION--}"
-  platform="${platform%.tar.gz}"
+  # Extract platform from: loom--0.1.0.arm64_sequoia.bottle.tar.gz
+  platform="${name#loom--$RELEASE_VERSION.}"
+  platform="${platform%.bottle.tar.gz}"
   echo "  • $platform"
 
   curl -sL "$url" -o "$TMPDIR/$name"
   sha=$(shasum -a 256 "$TMPDIR/$name" | cut -d' ' -f1)
-  echo "@sha256_$platform = \"$sha\"" >> "$OUTPUT_FILE"
+  echo "$platform=$sha" >> checksums.txt
 done < assets_list.txt
 
 echo ""
-echo "Checksums written to: $OUTPUT_FILE"
+echo "Checksums computed:"
+cat checksums.txt | sed 's/^/  /'
 echo ""
 
-# Update formula automatically if Ruby is available
-if command -v ruby &>/dev/null; then
-  echo "Updating formula automatically..."
-ruby -e '
-    checksums = {}
-    if File.exist?("'"$OUTPUT_FILE"'")
-      File.readlines("'"$OUTPUT_FILE"'").each do |l|
-        if l =~ /^@sha256_(\w+)\s*=\s*"([^"]+)"/
-          checksums[$1] = $2
-        end
-      end
-    end
+# Update formula
+echo "Updating formula..."
+while IFS='=' read -r platform sha; do
+  [ -z "$platform" ] && continue
+  echo "  Updating sha256 for $platform..."
 
-    content = File.read("'"$FORMULA_FILE"'")
-    lines = content.lines
-    # For each platform checksum, locate the url line containing the platform and replace the following sha256 line
-    checksums.each do |platform, sha|
-      url_regex = /url\s+"[^"]*--#{platform}\.tar\.gz"/
-      lines.each_with_index do |line, idx|
-        if line =~ url_regex
-          # Find next line with sha256
-          (idx+1).upto(lines.size-1) do |j|
-            if lines[j] =~ /sha256\s+"[^"]*"/
-              lines[j] = lines[j].sub(/sha256\s+"[^"]*"/, "sha256 \"#{sha}\"")
-              break
-            end
-          end
-        end
-      end
-    end
-    new_content = lines.join
-    File.write("'"$FORMULA_FILE"'", new_content)
-  '
+  # Match: sha256 cellar: :any, <platform>: "<old_sha>"
+  perl -i -pe "s/(sha256\s+cellar:\s+:any,\s+$platform:\s+)\"[^\"]*\"/\${1}\"$sha\"/" "$FORMULA_FILE"
+done < checksums.txt
 
-  echo "Formula updated successfully!"
-  echo ""
-  echo "Next steps:"
-  echo "  1. Review the changes: git diff $FORMULA_FILE"
-  echo "  2. Commit: git commit -am \"Update bottle checksums for v$VERSION\""
-  echo "  3. Push to your tap repository"
-else
-  echo "Ruby not found. Please update the formula manually:"
-  echo "  Copy the values from $OUTPUT_FILE into the bottle block of $FORMULA_FILE"
-fi
+echo ""
+echo "Formula updated successfully!"
+echo ""
+echo "Next steps:"
+echo "  1. Review: git diff $FORMULA_FILE"
+echo "  2. Commit: git commit -m \"Update bottle checksums for v$VERSION\""
+echo "  3. Push: git push"

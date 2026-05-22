@@ -9,10 +9,8 @@ class Loom < Formula
 
   bottle do
     root_url "https://github.com/tusharmewara/homebrew-loom/releases/download/v0.1.2"
-    sha256 cellar: :any, arm64_sequoia: "a91f3d749f269181794a7b593713d8cc1c703d1347c418ece3c33379234b9822"
-    sha256 cellar: :any, arm64_sonoma:  "cdb938b6dfc6870854e3f34601d788052bc68c15ef42a9f9fe69625e22f3bb77"
-    sha256 cellar: :any, ventura:       "c43670427f94397f045ad1a974fbe0564c782daf0545df91d5ee6619fa09305e"
-    sha256 cellar: :any, monterey:      "8cc29f77704d1e2c8f35f80ec91ed1f4e97c9f892ae312ebbeb23e4d172e1b51"
+    sha256 cellar: :any, ventura:       "e94aa9f8066a6ff3972db4763ce75a8b59f633b4cb07cc3770ddffef63bf0440"
+    sha256 cellar: :any, x86_64_linux:   "e94aa9f8066a6ff3972db4763ce75a8b59f633b4cb07cc3770ddffef63bf0440"
   end
 
   def install
@@ -22,7 +20,6 @@ class Loom < Formula
 
   def post_install
     # ~/.loom is created by loomd on first run
-    # Users can run 'loom init' and 'loom scan' manually if needed
   end
 
   service do

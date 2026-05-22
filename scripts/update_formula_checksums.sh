@@ -37,7 +37,7 @@ echo "Release tag: v$RELEASE_VERSION"
 
 # Filter bottle assets
 echo "Filtering bottle assets..."
-echo "$RELEASE_DATA" | jq -r '.assets[] | select(.name | test("loom--'$RELEASE_VERSION'\\.(arm64_sequoia|arm64_sonoma|ventura|monterey)\\.bottle\\.tar\\.gz$")) | "\(.name) \(.browser_download_url)"' > assets_list.txt
+echo "$RELEASE_DATA" | jq -r '.assets[] | select(.name | test("loom-'$RELEASE_VERSION'\\.(arm64_sequoia|arm64_sonoma|ventura|monterey)\\.bottle\\.tar\\.gz$")) | "\(.name) \(.browser_download_url)"' > assets_list.txt
 
 if [ ! -s assets_list.txt ]; then
   echo "No bottle assets found for version $RELEASE_VERSION."
@@ -58,7 +58,7 @@ echo "Downloading bottles and computing checksums..."
 while read -r name url; do
   [ -z "$name" ] && continue
   # Extract platform from: loom--0.1.0.arm64_sequoia.bottle.tar.gz
-  platform="${name#loom--$RELEASE_VERSION.}"
+  platform="${name#loom-$RELEASE_VERSION.}"
   platform="${platform%.bottle.tar.gz}"
   echo "  • $platform"
 

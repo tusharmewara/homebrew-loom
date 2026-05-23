@@ -5,11 +5,12 @@ class Loom < Formula
   license "MIT"
 
   url "https://github.com/tusharmewara/loom/releases/download/v0.1.2/loom-0.1.2.tar.gz"
-  sha256 "0019dfc4b32d63c1392aa264aed2253c1e0c2fb09216f8e2cc269bbfb8bb49b5"
+  sha256 "92fcd2165acc655a7b543725a89559d956799dbd030713087db55c012626836a"
 
   bottle do
     root_url "https://github.com/tusharmewara/homebrew-loom/releases/download/v0.1.2"
-    sha256 cellar: :any, ventura: "675b320eaf9453005fe8bcf0324b030c7d7e7b644dda1dc32bcf563d85f42a88"
+    sha256 cellar: :any, ventura: "9964c919b86f5a748a8de67d09728c4fe700246c268cd2c9acbc9228c35cc81c"
+    sha256 cellar: :any, sonoma: "b969adaf54ff028ce07c4060e0c1c5ad4df3b0d140369590fd5712f817fd55de"
   end
 
   def install

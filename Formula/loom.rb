@@ -4,7 +4,8 @@ class Loom < Formula
   version "0.1.2"
   license "MIT"
 
-  url "https://github.com/tusharmewara/loom/releases/download/v0.1.2/loom-0.1.2.tar.gz"
+  # Source tarball in homebrew-loom releases
+  url "https://github.com/tusharmewara/homebrew-loom/releases/download/v0.1.2/loom-0.1.2.tar.gz"
   sha256 "92fcd2165acc655a7b543725a89559d956799dbd030713087db55c012626836a"
 
   bottle do

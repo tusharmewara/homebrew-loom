@@ -5,7 +5,7 @@ class Loom < Formula
   license "MIT"
 
   url "https://github.com/tusharmewara/homebrew-loom/releases/download/v0.1.3/loom-0.1.3.tar.gz"
-  sha256 "f8a4abec7ac28df0f82e7718a43d4b1631c48cb02e9a1df23aeea9e25143e8bd"
+  sha256 "0019dfc4b32d63c1392aa264aed2253c1e0c2fb09216f8e2cc269bbfb8bb49b5"
 
   bottle do
     root_url "https://github.com/tusharmewara/homebrew-loom/releases/download/v0.1.3"

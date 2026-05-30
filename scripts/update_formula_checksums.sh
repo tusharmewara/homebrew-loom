@@ -37,7 +37,7 @@ echo "Release tag: v$RELEASE_VERSION"
 
 # Filter bottle assets
 echo "Filtering bottle assets..."
-echo "$RELEASE_DATA" | jq -r '.assets[] | select(.name | test("loom-'$RELEASE_VERSION'\\.(arm64_sequoia|arm64_sonoma|ventura|monterey)\\.bottle\\.tar\\.gz$")) | "\(.name) \(.browser_download_url)"' > assets_list.txt
+echo "$RELEASE_DATA" | jq -r '.assets[] | select(.name | test("loom-'$RELEASE_VERSION'\\.(arm64_sequoia|arm64_sonoma|arm64_tahoe|sequoia|sonoma|tahoe|ventura|monterey)\\.bottle\\.tar\\.gz$")) | "\(.name) \(.browser_download_url)"' > assets_list.txt
 
 if [ ! -s assets_list.txt ]; then
   echo "No bottle assets found for version $RELEASE_VERSION."

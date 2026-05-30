@@ -1,22 +1,23 @@
 class Loom < Formula
   desc "Unified agentic ecosystem for sharing skills, sessions, and MCP servers"
   homepage "https://github.com/tusharmewara/loom"
-  version "0.1.3"
+  version "0.2.0"
   license "MIT"
 
-  url "https://github.com/tusharmewara/homebrew-loom/releases/download/v0.1.3/loom-0.1.3.tar.gz"
-  sha256 "f8a4abec7ac28df0f82e7718a43d4b1631c48cb02e9a1df23aeea9e25143e8bd"
+  url "https://github.com/tusharmewara/loom/archive/refs/tags/v0.2.0.tar.gz"
+  sha256 "0019dfc4b32d63c1392aa264aed2253c1e0c2fb09216f8e2cc269bbfb8bb49b5"
 
   bottle do
-    root_url "https://github.com/tusharmewara/homebrew-loom/releases/download/v0.1.3"
-    sha256 cellar: :any, arm64_sonoma: "5674429fe4100e19b16791ca942d4b13df271ebde909bd6485f3f42f86284221"
-    sha256 cellar: :any, sonoma:       "93c8ca3b9395b83c2898eeb92eab108d6a25a509a4d0f96ce0429f863897b31f"
-    sha256 cellar: :any, ventura:      "ac0280ec441acaef2263591843719a8881485f639b33bb00041a8f96971c41bb"
+    root_url "https://github.com/tusharmewara/homebrew-loom/releases/download/v0.2.0"
+    sha256 cellar: :any, tahoe:      "92b2b9520d744333d81704ee33c0930e5850e3816219cc31eee3f9de4add8f02"
+    sha256 cellar: :any, arm64_tahoe: "785d3e6415fafa29cba8a1194cdf76d33a1af5ddbe8772924dbdfa769d447281"
   end
 
+  depends_on "rust" => :build
+
   def install
-    bin.install "bin/loom"
-    bin.install "bin/loomd"
+    system "cargo", "install", *std_cargo_args(path: "crates/loom-cli")
+    system "cargo", "install", *std_cargo_args(path: "crates/loomd")
   end
 
   service do

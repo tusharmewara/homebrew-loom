@@ -1,2 +1,2 @@
-loom--0.1.0--arm64_sonoma.tar.gz https://github.com/tusharmewara/homebrew-loom/releases/download/v0.1.0/loom--0.1.0--arm64_sonoma.tar.gz
-loom--0.1.0--monterey.tar.gz https://github.com/tusharmewara/homebrew-loom/releases/download/v0.1.0/loom--0.1.0--monterey.tar.gz
+loom-0.2.0.tahoe.bottle.tar.gz https://github.com/tusharmewara/homebrew-loom/releases/download/v0.2.0/loom-0.2.0.tahoe.bottle.tar.gz
+loom-0.2.0.arm64_tahoe.bottle.tar.gz https://github.com/tusharmewara/homebrew-loom/releases/download/v0.2.0/loom-0.2.0.arm64_tahoe.bottle.tar.gz

@@ -1,107 +1,205 @@
 # homebrew-loom
 
-Homebrew tap for [Loom] — the shared agentic ecosystem for AI tools.
+Homebrew formula for [Loom](https://github.com/tusharmewara/loom) — the shared
+ecosystem for AI coding tools.
 
 [![Latest Release](https://img.shields.io/github/v/release/tusharmewara/loom?label=loom)](https://github.com/tusharmewara/loom/releases)
 
-## Installation
+---
+
+## The Problem
+
+If you use multiple AI coding tools (Claude Code, jcode, Cursor, Goose, opencode,
+crush...), you've probably noticed they don't share anything. Skills you install
+in one are invisible to the rest. MCP servers need to be configured separately
+each time. Sessions are locked inside whichever tool created them.
+
+Loom is the **shared layer** between all of them.
+
+## Quick Start
 
 ```bash
+# Install
 brew tap tusharmewara/loom
 brew install loom
-```
 
-The formula ships with pre-built bottles for **macOS** (ARM64 + x86_64) and **Linux** (x86_64).
+# Initialize the ecosystem (creates ~/.loom/)
+loom init
 
-## Usage
-
-### Start the daemon
-
-```bash
+# Optional-but-recommended: start the background daemon
 brew services start loom
 ```
 
-This runs `loomd` as a background service with logs at:
-- Standard log: `$(brew --prefix)/var/log/loomd.log`
-- Error log: `$(brew --prefix)/var/log/loomd.err.log`
+That's it. Run `loom status` to confirm everything is set up.
 
-### Run commands
+## First Steps
+
+Once Loom is installed, these are the first things to try:
 
 ```bash
-loom --help
-loom init
+# See what Loom knows about — tools, skills, MCP servers
+loom scan
+
+# Check the health of your setup
+loom doctor
+
+# List installable MCP servers from the registry
+loom mcp list-known
+
+# Install one (e.g., Playwright for browser automation)
+loom mcp install playwright
+
+# List registered skills
 loom skills list
-loom mcp list
+```
+
+Everything you add (MCP servers, skills, tools) becomes available to **every**
+tool in your ecosystem — no per-tool configuration needed.
+
+## Real-World Scenarios
+
+### Share an MCP server across tools
+
+```bash
+# Install once
+loom mcp install filesystem
+
+# Use from any tool — Claude Code, jcode, Goose, etc. — all share it
+# without needing separate configs
+```
+
+### Export a session and continue elsewhere
+
+```bash
+# After a session in any tool, export it to Loom's shared storage
 loom sessions list
+loom sessions export <session-id> --output session.jsonl
+
+# Resume it in a different tool with full history
+loom sessions resume <session-id> --provider anthropic --model claude-sonnet-4
+
+# With knowledge injection, Loom enriches the resumed session with
+# relevant context from past sessions
+loom sessions resume <session-id> --inject-knowledge
 ```
 
-### Stop the daemon
+### Route tasks to the right model automatically
 
 ```bash
-brew services stop loom
+# Loom scores complexity and picks the right tier
+#   simple fixes → Slm (fast/cheap)
+#   complex architecture → Flagship (slow/expensive)
+loom routing evaluate "Write a Python script to parse this CSV"
+
+# Override for a specific task when needed
+loom routing override <task-id> --tier flagship --reason "needs deep reasoning"
 ```
 
-### Restart the daemon
+## Daemon
+
+The daemon (`loomd`) is a background service that keeps the ecosystem hot —
+shared MCP connections, session indexing, event bus, knowledge graph — so CLI
+commands start instantly. It auto-shuts down after 5 minutes idle.
 
 ```bash
-brew services restart loom
+brew services start loom     # Start
+brew services stop loom      # Stop
+brew services restart loom   # Restart
 ```
 
-## What is Loom?
+Without the daemon, `loom` still works — it just initializes subsystems on
+demand, which is slightly slower.
 
-Loom is a unified agentic ecosystem that enables seamless collaboration between multiple AI tools (jcode, crush, claude-code, opencode, goose, etc.) while sharing:
+## What Loom Provides
 
-- **Skills** — write once, use everywhere
-- **Sessions** — export from one tool, continue in another
-- **MCP servers** — register once, share across tools
-- **Credentials** — encrypted vault with ACLs
-- **Hooks** — intercept and modify tool behavior
-- **Knowledge Graph** — entities, relationships, and FTS5 search across sessions
+| Feature | What it does |
+|---------|-------------|
+| **Skills** | Write a skill once, use it from any tool. Skills are portable YAML files with structured prompts, auto-loaded by all tools. |
+| **Sessions** | Export from one tool, resume in another. Full history + compression + compression for long sessions. |
+| **MCP Servers** | Register once, share across every tool. Pooled connections with health checking. |
+| **Auth & Credentials** | Encrypted credential vault with role-based ACLs and audit logging. |
+| **Hooks** | Intercept tool actions (pre/post task, session events) with executable scripts. Signed for integrity. |
+| **Knowledge Graph** | Entities and relationships extracted from session history. Powers search, recommendation, and context injection. |
+| **Model Routing** | Automatic complexity scoring routes tasks to the right model tier (Slm / Mid / Flagship). |
+| **Workflows** | Multi-phase task orchestration with phase transitions and manual overrides. |
 
-For full documentation, visit the [main repo](https://github.com/tusharmewara/loom).
+## Command Reference
 
-## Updating
+### Core
+```
+loom init                          Create ~/.loom/ tree
+loom scan                          Display resource summary
+loom status                        Show ecosystem state
+loom doctor                        Deep diagnostics
+loom exec <tools...> [-- args...]  Execute tools with ecosystem
+loom tui                           Launch terminal UI
+```
 
-When a new Loom release is published, bottles are uploaded as part of the release workflow. The formula is kept in sync via manual updates (see `release-bottle.sh` in the loom repo).
+### MCP
+```
+loom mcp list                      List registered MCP servers
+loom mcp show <id>                 Show MCP server config
+loom mcp add <name>                Add MCP server stub
+loom mcp install <name>            Install a known MCP server
+loom mcp list-known                List installable MCP servers
+```
 
-To update the formula checksums after a new release:
+### Skills
+```
+loom skills list                   List skills
+loom skills show <name>            Show skill details
+loom skills install <path>         Install skill from file
+```
 
-```bash
-bash scripts/update_formula_checksums.sh <version>
+### Sessions
+```
+loom sessions list                 List sessions
+loom sessions show <id>            Show session details
+loom sessions export <id>          Export session
+loom sessions resume <id>          Resume session
+```
+
+### Routing
+```
+loom routing evaluate <prompt>     Score prompt complexity
+loom routing show                  Show routing config
+```
+
+### Knowledge
+```
+loom knowledge build               Build knowledge graph from sessions
+loom knowledge query <entity>      Query subgraph around entity
+loom knowledge search <query>      Search entities
+```
+
+### Daemon
+```
+loom daemon start                  Start loomd
+loom daemon stop                   Stop loomd
+loom daemon status                 Show daemon status
 ```
 
 ## Formula
 
 | File | Purpose |
 |------|---------|
-| `Formula/loom.rb` | Homebrew formula with bottle URLs for `arm64_tahoe`, `tahoe`, and `x86_64_linux` |
-| `scripts/update_formula_checksums.sh` | Helper script to fetch bottles and update checksums |
-| `.github/workflows/bottles.yml` | CI workflow to build and publish bottles on release |
-
-## Binaries
-
-This tap installs:
-
-| Binary | Description |
-|--------|-------------|
-| `loom` | CLI with 20+ subcommands |
-| `loomd` | Background daemon (auto-shutdown after 5 min idle) |
+| `Formula/loom.rb` | Homebrew formula with bottles for `arm64_tahoe`, `tahoe`, `x86_64_linux` |
+| `scripts/update_formula_checksums.sh` | Fetch bottles and update checksums after a release |
+| `.github/workflows/bottles.yml` | CI: build and publish bottles on release |
 
 ## Filesystem
 
-Loom stores all data in `~/.loom/`:
-
 ```
 ~/.loom/
-├── config.toml
-├── config/
-├── skills/
-├── mcp/
-├── sessions/
-├── auth/
-├── hooks/
-├── knowledge/
-└── tools/
+├── config.toml          # Main config
+├── config/              # Layer overlays (routing, mcp, hooks, acp)
+├── skills/              # Shared skills database
+├── mcp/                 # MCP server configs
+├── sessions/            # Session exports
+├── auth/                # Encrypted vault + audit logs
+├── hooks/               # Hook TOML configs and scripts
+├── knowledge/           # Knowledge graph (SQLite + FTS5)
+└── tools/               # Tool registration files
 ```
 
 ## License

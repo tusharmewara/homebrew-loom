@@ -2,12 +2,16 @@
 
 Homebrew tap for [Loom] — the shared agentic ecosystem for AI tools.
 
+[![Latest Release](https://img.shields.io/github/v/release/tusharmewara/loom?label=loom)](https://github.com/tusharmewara/loom/releases)
+
 ## Installation
 
 ```bash
 brew tap tusharmewara/loom
-brew install --formula loom
+brew install loom
 ```
+
+The formula ships with pre-built bottles for **macOS** (ARM64 + x86_64) and **Linux** (x86_64).
 
 ## Usage
 
@@ -52,14 +56,15 @@ Loom is a unified agentic ecosystem that enables seamless collaboration between 
 - **MCP servers** — register once, share across tools
 - **Credentials** — encrypted vault with ACLs
 - **Hooks** — intercept and modify tool behavior
+- **Knowledge Graph** — entities, relationships, and FTS5 search across sessions
 
-you may request for full documentation.
+For full documentation, visit the [main repo](https://github.com/tusharmewara/loom).
 
 ## Updating
 
-When a new Loom release is published, the [Update Formula Checksums](.github/workflows/update_checksums.yml) workflow automatically downloads the new bottles, computes SHA256 checksums, and updates `Formula/loom.rb`.
+When a new Loom release is published, bottles are uploaded as part of the release workflow. The formula is kept in sync via manual updates (see `release-bottle.sh` in the loom repo).
 
-You can also trigger it manually:
+To update the formula checksums after a new release:
 
 ```bash
 bash scripts/update_formula_checksums.sh <version>
@@ -69,9 +74,9 @@ bash scripts/update_formula_checksums.sh <version>
 
 | File | Purpose |
 |------|---------|
-| `Formula/loom.rb` | Homebrew formula with bottle URLs for arm64_sonoma and monterey |
+| `Formula/loom.rb` | Homebrew formula with bottle URLs for `arm64_tahoe`, `tahoe`, and `x86_64_linux` |
 | `scripts/update_formula_checksums.sh` | Helper script to fetch bottles and update checksums |
-| `.github/workflows/update_checksums.yml` | GitHub Actions workflow for automatic checksum updates on release |
+| `.github/workflows/bottles.yml` | CI workflow to build and publish bottles on release |
 
 ## Binaries
 
@@ -95,6 +100,7 @@ Loom stores all data in `~/.loom/`:
 ├── sessions/
 ├── auth/
 ├── hooks/
+├── knowledge/
 └── tools/
 ```
 

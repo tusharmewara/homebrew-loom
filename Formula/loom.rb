@@ -1,16 +1,16 @@
 class Loom < Formula
   desc "Unified agentic ecosystem for sharing skills, sessions, and MCP servers"
   homepage "https://github.com/tusharmewara/loom"
-  version "0.3.4"
+  version "0.3.5"
   license "MIT"
 
-  url "https://github.com/tusharmewara/loom/archive/refs/tags/v0.3.4.tar.gz"
-  sha256 "4dc4d1eeea7243480fcb8e91ba109ae46cc02a7e9a07e5f757cae96ef22fa7a2"
+  url "https://github.com/tusharmewara/loom/archive/refs/tags/v0.3.5.tar.gz"
+  sha256 "fabee1c332a8ef991839bf043215db734e45f172251de8dbda9504e3802e3277"
 
   bottle do
-    root_url "https://github.com/tusharmewara/homebrew-loom/releases/download/v0.3.4"
-    sha256 cellar: :any, arm64_tahoe: "21d1960d43493468104e30b9bb11f5cf71e3bfa27de7351e0abd10c6a82a31db"
-    sha256 cellar: :any, tahoe:       "ba7270af90207efc3f7e16a48e2022901420012d87fbdaadbe2b6124789e7a10"
+    root_url "https://github.com/tusharmewara/homebrew-loom/releases/download/v0.3.5"
+    sha256 cellar: :any, arm64_tahoe: "66aba6c04b8a912eda6f98882e291f1c67a82bb1211541e264df23d623020961"
+    sha256 cellar: :any, tahoe:       "30b1ff50acf255a48d8fb7c9e59d1049a7cdf5a262c0187ccd40396cfe74e68e"
   end
 
   depends_on "rust" => :build

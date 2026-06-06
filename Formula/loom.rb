@@ -5,12 +5,12 @@ class Loom < Formula
   license "MIT"
 
   url "https://github.com/tusharmewara/loom/archive/refs/tags/v0.3.7.tar.gz"
-  sha256 "0019dfc4b32d63c1392aa264aed2253c1e0c2fb09216f8e2cc269bbfb8bb49b5"
+  sha256 "727884b31e18d0282f844128a04f29b13343c1b5c862503abc91cc9f317d4781"
 
   bottle do
     root_url "https://github.com/tusharmewara/homebrew-loom/releases/download/v0.3.7"
-    sha256 cellar: :any, arm64_tahoe: "65d5358898c1b44f597ba48529bb7266712442d0dc1b29cb5cad53ffc086808a"
-    sha256 cellar: :any, tahoe:       "b78e2e425e5732eb75f00b83612939faeddcda85e1940ffbeb2e32d1ba168fd0"
+    sha256 cellar: :any, arm64_tahoe: "b66249ce840ab378c4e0f248611f422e114a748c20cd50412c088be8faac75c6"
+    sha256 cellar: :any, tahoe:       "b88cd486e2548b4b7728f9b38e388abe01d5b755aadf6762a86781215e7e7d14"
   end
 
   depends_on "rust" => :build

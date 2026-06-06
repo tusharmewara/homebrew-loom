@@ -1,16 +1,16 @@
 class Loom < Formula
   desc "Unified agentic ecosystem for sharing skills, sessions, and MCP servers"
   homepage "https://github.com/tusharmewara/loom"
-  version "0.3.3"
+  version "0.3.4"
   license "MIT"
 
-  url "https://github.com/tusharmewara/loom/archive/refs/tags/v0.3.3.tar.gz"
-  sha256 "d6550fab71d9c4f75a20b159c575db2b1eadd1d2a6b5861af189b015041ab881"
+  url "https://github.com/tusharmewara/loom/archive/refs/tags/v0.3.4.tar.gz"
+  sha256 "4dc4d1eeea7243480fcb8e91ba109ae46cc02a7e9a07e5f757cae96ef22fa7a2"
 
   bottle do
-    root_url "https://github.com/tusharmewara/homebrew-loom/releases/download/v0.3.3"
-    sha256 cellar: :any, arm64_tahoe: "e57e6dd20d566f437f6813dffe1ec25cfbe559014d65a60afbdffa2f09dad921"
-    sha256 cellar: :any, tahoe:       "d01c4b62c8ff3db10bfc044fd7f3e6bf14187288199854f78bfc5a2f8879ec4a"
+    root_url "https://github.com/tusharmewara/homebrew-loom/releases/download/v0.3.4"
+    sha256 cellar: :any, arm64_tahoe: "21d1960d43493468104e30b9bb11f5cf71e3bfa27de7351e0abd10c6a82a31db"
+    sha256 cellar: :any, tahoe:       "ba7270af90207efc3f7e16a48e2022901420012d87fbdaadbe2b6124789e7a10"
   end
 
   depends_on "rust" => :build
@@ -18,6 +18,8 @@ class Loom < Formula
   def install
     system "cargo", "install", *std_cargo_args(path: "crates/loom-cli")
     system "cargo", "install", *std_cargo_args(path: "crates/loomd")
+    man1.install "manpages/loom.1"
+    man1.install "manpages/loomd.1"
   end
 
   service do

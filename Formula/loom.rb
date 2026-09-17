@@ -5,21 +5,28 @@ class Loom < Formula
   license "MIT"
 
   url "https://github.com/tusharmewara/loom/archive/refs/tags/v0.8.0.tar.gz"
-  sha256 "0019dfc4b32d63c1392aa264aed2253c1e0c2fb09216f8e2cc269bbfb8bb49b5"
+  sha256 "885c91b6dd061f5ec3f17d1d96e7fc26a64ef01af0819eea11815847b174d6fd"
 
   bottle do
     root_url "https://github.com/tusharmewara/homebrew-loom/releases/download/v0.8.0"
-    sha256 cellar: :any, arm64_tahoe: "491b7dc7ffb3b009b3ce81b0b7bb5b451f87bf6a50135abce0f78961bb574259"
-    sha256 cellar: :any, tahoe:        "c7317c29f6c4ab81ee9680f6568187733fef5c80ef3b6f8b01f6b5745e656adb"
+    sha256 cellar: :any, arm64_tahoe: "5bdddc0f3263be7ecffa6f5eb56bb7658457fbec25dba7bce14741a515dedf13"
+    sha256 cellar: :any, tahoe: "239d16de0df9ad5cb105a7c48e1feab088069a95013148525bb99c0102f15a02"
   end
 
   depends_on "rust" => :build
 
   def install
-    system "cargo", "install", *std_cargo_args
+    bin.install "bin/loom"
+    bin.install "bin/loomd"
+  end
+
+  service do
+    run [opt_bin/"loomd"]
+    working_dir Dir.home
+    keep_alive true
   end
 
   test do
-    system "false"
+    assert_match "Loom", shell_output("#{bin}/loom --help")
   end
 end

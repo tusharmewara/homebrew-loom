@@ -9,9 +9,9 @@ class Loom < Formula
 
   bottle do
     root_url "https://github.com/tusharmewara/homebrew-loom/releases/download/v0.8.2"
-    sha256 cellar: :any, 8.2.arm64_sonoma => "d5591fa70c55b1abbdc1dc90e5796bef29f7a7af4b0537acaeae4f3389d8fa53"
-    sha256 cellar: :any, 8.2.sonoma => "15ca53af53bbe6b177ed61e0a90c4e9d0c7a94955af22b369561d21779dec3c2"
-    sha256 cellar: :any, 8.2.x86_64_linux => "f84f7e52c32e719026f7aa3e2206881ff4e09d8d76fb3d9c016093fa5a5edcb0"
+    sha256 cellar: :any, arm64_sonoma => "7c19a78e0b87252f73e874a53c22a0cec085775e850f7905f8e007a06d4dcbae"
+    sha256 cellar: :any, sonoma => "23557e3cb8ff5b7a6252ab696b397a2109513bbd88b69c612fef41c80c0360c5"
+    sha256 cellar: :any_skip_relocation, x86_64_linux => "97119106174f80bf07dfda16d19f7e2004bcc18c3208d432ab96b87662a8c145"
 
   end
 

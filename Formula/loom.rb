@@ -1,16 +1,16 @@
 class Loom < Formula
   desc "Unified agentic ecosystem for sharing skills, sessions, and MCP servers"
   homepage "https://github.com/tusharmewara/loom"
-  version "0.9.5"
+  version "0.9.4"
   license "MIT"
 
-  url "https://github.com/tusharmewara/loom/archive/refs/tags/v0.9.5.tar.gz"
-  sha256 "51a50eb4c729d016f8e73dcf4fc6ce8d306a9d410736272921e0813a4959e1db"
+  url "https://github.com/tusharmewara/loom/archive/refs/tags/v0.9.4.tar.gz"
+  sha256 "10d955f155d2a9b60caf113063fa28e09733178c8e126d747961afd955e4bd67"
 
   bottle do
     root_url "https://github.com/tusharmewara/loom/releases/download/v0.9.5"
-    sha256 cellar: :any, arm64_sonoma: "9426b478be26e0fbea4019bf5ccab9bb1e4c6aba38aee6871f74bfc2371e53d1"
-    sha256 cellar: :any, sonoma: "0279ab996f8b7bfa9f5072a1719eb385d7597e4fbb2f603d67e44636bc7e51e7"
+    sha256 cellar: :any, arm64_sonoma: "b4fcfd264a4523d2dfb98b44de50a81fd799a7465a81e1f50a0817bff0f3255f"
+    sha256 cellar: :any, sonoma: "17ffb3e9031f8f29ea14584c271bc361be9deaff63e3e7f2797ace0af356a846"
     sha256 cellar: :any_skip_relocation, x86_64_linux: "4c94c389f76dd3e136176a9cc17c019318b343d869ff489b92672696b497e78d"
   end
 

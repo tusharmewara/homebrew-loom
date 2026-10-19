@@ -8,12 +8,10 @@ class Loom < Formula
   sha256 "51a50eb4c729d016f8e73dcf4fc6ce8d306a9d410736272921e0813a4959e1db"
 
   bottle do
-    root_url "https://github.com/tusharmewara/homebrew-loom/releases/download/v0.9.5"
-    sha256 cellar: :any, arm64_sonoma: "77f61bb2cdadfffa8c95f93186d0ee1dd0db809caa6a474ef2809412a16b6707"
-    sha256 cellar: :any, arm64_tahoe: "e04e54439c8028904d3b9a14581c4b1e632e60811d476f6a6a0facb23622d3f8"
-    sha256 cellar: :any, sonoma: "2adb722a7b969b90a86ac926445bbdd129a355298da99bcb52139e5c349d922f"
-    sha256 cellar: :any, tahoe: "ddfddc111b1a7eccbba519525dad57726f9e0a912daf9bf59a009d9545c8024d"
-    sha256 cellar: :any_skip_relocation, x86_64_linux: "5fe48c02f1306151e6049cc45d03c303a172ad269e6c323b329578b02ff95f97"
+    root_url "https://github.com/tusharmewara/loom/releases/download/v0.9.5"
+    sha256 cellar: :any, arm64_sonoma: "9426b478be26e0fbea4019bf5ccab9bb1e4c6aba38aee6871f74bfc2371e53d1"
+    sha256 cellar: :any, sonoma: "0279ab996f8b7bfa9f5072a1719eb385d7597e4fbb2f603d67e44636bc7e51e7"
+    sha256 cellar: :any_skip_relocation, x86_64_linux: "4c94c389f76dd3e136176a9cc17c019318b343d869ff489b92672696b497e78d"
   end
 
   depends_on "rust" => :build

@@ -4,6 +4,7 @@ Homebrew formula for [Loom](https://github.com/tusharmewara/loom) — the shared
 ecosystem for AI coding tools.
 
 [![Latest Release](https://img.shields.io/github/v/release/tusharmewara/loom?label=loom)](https://github.com/tusharmewara/loom/releases)
+[![License: MIT](https://img.shields.io/badge/License-MIT-yellow.svg)](https://github.com/tusharmewara/loom/blob/main/LICENSE)
 
 ---
 

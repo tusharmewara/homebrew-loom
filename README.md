@@ -376,6 +376,17 @@ curl http://cp.example.com:7333/health/ready
 - **Compliance auditing**: Query the audit log to see which admin performed which action, when, and with what outcome — all stored locally in SQLite.
 - **Multi-tool ecosystems**: Install Loom once and every agent tool (Claude Code, jcode, Cursor, Goose, crush, opencode, gemini-cli, kiro, juno, github-copilot) shares skills, MCP servers, sessions, credentials, and workflows without per-tool config.
 
+## Architecture diagram
+
+The [architecture diagram](./architecture.html) shows the loomd daemon at the center of the ecosystem: the CLI, control plane, license gate, vault RBAC, org registry, Stripe billing, analytics, and SSO/FIPS/audit crates all connect through it.
+
+The diagram opens as a self-contained HTML page with inline SVG — view it directly in the browser or embed it in slides/docs.
+
+<figure>
+  <img src="architecture.svg" alt="Loom architecture — loomd daemon at the center with Phase 2–8 crates around it" style="width:100%;max-width:1260px;height:auto;border:1px solid #e5e5e5;border-radius:8px;background:#fff;">
+  <figcaption style="font-family:system-ui,sans-serif;font-size:0.85rem;color:#666;margin-top:0.5rem;">Loom shared agentic ecosystem — loomd daemon with analytics, SSO/FIPS/audit, billing, and license gate crates. <a href="./architecture.html">View standalone diagram</a></figcaption>
+</figure>
+
 ## License
 
 MIT

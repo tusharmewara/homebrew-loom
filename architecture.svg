@@ -1,0 +1,104 @@
+<svg viewBox="0 0 1260 620" xmlns="http://www.w3.org/2000/svg" role="img" aria-labelledby="architecture-title architecture-desc">
+        <title id="architecture-title">Loom — Shared Agentic Ecosystem</title>
+        <desc id="architecture-desc">The loomd daemon sits at the center: the CLI, control plane, license gate, vault RBAC, org registry, Stripe billing, analytics, and SSO/FIPS/audit crates all connect through it.</desc>
+        <defs>
+          <marker id="arrow" markerWidth="8" markerHeight="6" refX="7" refY="3" orient="auto">
+            <polygon points="0 0, 8 3, 0 6" fill="#4f5d75"/>
+          </marker>
+          <marker id="arrow-accent" markerWidth="8" markerHeight="6" refX="7" refY="3" orient="auto">
+            <polygon points="0 0, 8 3, 0 6" fill="#bf4520"/>
+          </marker>
+          <marker id="arrow-link" markerWidth="8" markerHeight="6" refX="7" refY="3" orient="auto">
+            <polygon points="0 0, 8 3, 0 6" fill="#2e5aa8"/>
+          </marker>
+        </defs>
+
+        <!-- Arrows drawn FIRST (z-order: lines behind nodes) -->
+        <!-- CLI → loomd (control) -->
+        <path d="M 320,310 H 442" fill="none" stroke="#4f5d75" stroke-width="1.2" marker-end="url(#arrow)"/>
+        <!-- loomd → License gate -->
+        <path d="M 630,310 H 752" fill="none" stroke="#4f5d75" stroke-width="1.2" marker-end="url(#arrow)"/>
+        <!-- loomd → Control plane -->
+        <path d="M 630,310 H 892" fill="none" stroke="#4f5d75" stroke-width="1.2" marker-end="url(#arrow)"/>
+        <!-- Control plane → Vault RBAC -->
+        <path d="M 816,190 V 288 H 648 V 330" fill="none" stroke="#4f5d75" stroke-width="1.2" marker-end="url(#arrow)"/>
+        <!-- Control plane → Registry sync -->
+        <path d="M 980,190 V 288 H 852 V 330" fill="none" stroke="#4f5d75" stroke-width="1.2" marker-end="url(#arrow)"/>
+        <!-- Control plane → Stripe billing -->
+        <path d="M 980,330 H 1102 V 430" fill="none" stroke="#4f5d75" stroke-width="1.2" marker-end="url(#arrow)"/>
+        <!-- Stripe billing → loomd (webhook / license issuance) -->
+        <path d="M 1102,430 V 510 H 630 V 390" fill="none" stroke="#2e5aa8" stroke-width="1.2" marker-end="url(#arrow-link)"/>
+        <!-- loomd → Analytics -->
+        <path d="M 630,390 H 772" fill="none" stroke="#4f5d75" stroke-width="1.2" marker-end="url(#arrow)"/>
+        <!-- loomd → Enterprise SSO/FIPS/Audit -->
+        <path d="M 630,390 H 912" fill="none" stroke="#bf4520" stroke-width="1.4" marker-end="url(#arrow-accent)"/>
+
+        <!-- Zones (drawn before nodes) -->
+        <rect x="120" y="260" width="1020" height="110" rx="8" fill="rgba(45,49,66,0.02)" stroke="rgba(45,49,66,0.10)" stroke-width="0.8"/>
+        <rect x="132" y="264" width="136" height="12" rx="2" fill="#f5f5f5"/>
+        <text x="200" y="275" fill="#5a6580" font-size="7" font-family="'Geist Mono', ui-monospace, monospace" text-anchor="middle" letter-spacing="0.14em">DAEMON + CRATES</rect>
+
+        <!-- Nodes -->
+        <!-- Node 1: loom CLI (top-left) -->
+        <rect x="220" y="140" width="200" height="90" rx="6" fill="#f5f5f5" stroke="#2d3142" stroke-width="1"/>
+        <rect x="228" y="146" width="40" height="12" rx="2" fill="transparent" stroke="rgba(45,49,66,0.40)" stroke-width="0.8"/>
+        <text x="248" y="155" fill="rgba(45,49,66,0.8)" font-size="7" font-family="'Geist Mono', ui-monospace, monospace" text-anchor="middle">CLI</text>
+        <text x="320" y="176" fill="#2d3142" font-size="12" font-weight="600" font-family="'Geist', system-ui, sans-serif" text-anchor="middle">loom CLI</text>
+        <text x="320" y="194" fill="#4f5d75" font-size="9" font-family="'Geist Mono', ui-monospace, monospace" text-anchor="middle">loom bin · 37 subcommands</text>
+
+        <!-- Node 2: loomd (center-top, focal accent) -->
+        <rect x="560" y="140" width="140" height="90" rx="6" fill="rgba(191,69,32,0.08)" stroke="#bf4520" stroke-width="1.2"/>
+        <rect x="568" y="146" width="44" height="12" rx="2" fill="transparent" stroke="rgba(191,69,32,0.40)" stroke-width="0.8"/>
+        <text x="590" y="155" fill="#bf4520" font-size="7" font-family="'Geist Mono', ui-monospace, monospace" text-anchor="middle">DAEMON</text>
+        <text x="630" y="176" fill="#2d3142" font-size="13" font-weight="600" font-family="'Geist', system-ui, sans-serif" text-anchor="middle">loomd</text>
+        <text x="630" y="194" fill="#4f5d75" font-size="9" font-family="'Geist Mono', ui-monospace, monospace" text-anchor="middle">IPC socket · auto-start</text>
+
+        <!-- Node 3: License gate (top-center) -->
+        <rect x="740" y="140" width="160" height="90" rx="6" fill="#f5f5f5" stroke="#2d3142" stroke-width="1"/>
+        <rect x="748" y="146" width="46" height="12" rx="2" fill="transparent" stroke="rgba(45,49,66,0.40)" stroke-width="0.8"/>
+        <text x="771" y="155" fill="rgba(45,49,66,0.8)" font-size="7" font-family="'Geist Mono', ui-monospace, monospace" text-anchor="middle">PHASE 2</text>
+        <text x="820" y="176" fill="#2d3142" font-size="12" font-weight="600" font-family="'Geist', system-ui, sans-serif" text-anchor="middle">License gate</text>
+        <text x="820" y="194" fill="#4f5d75" font-size="9" font-family="'Geist Mono', ui-monospace, monospace" text-anchor="middle">Ed25519 · unlocks()</text>
+
+        <!-- Node 4: Vault RBAC (top-center-right) -->
+        <rect x="590" y="40" width="160" height="90" rx="6" fill="#f5f5f5" stroke="#2d3142" stroke-width="1"/>
+        <rect x="598" y="46" width="46" height="12" rx="2" fill="transparent" stroke="rgba(45,49,66,0.40)" stroke-width="0.8"/>
+        <text x="621" y="55" fill="rgba(45,49,66,0.8)" font-size="7" font-family="'Geist Mono', ui-monospace, monospace" text-anchor="middle">PHASE 4</text>
+        <text x="670" y="76" fill="#2d3142" font-size="12" font-weight="600" font-family="'Geist', system-ui, sans-serif" text-anchor="middle">Vault RBAC</text>
+        <text x="670" y="94" fill="#4f5d75" font-size="9" font-family="'Geist Mono', ui-monospace, monospace" text-anchor="middle">admin/member · grants</text>
+
+        <!-- Node 5: Org registry (top-right) -->
+        <rect x="790" y="40" width="160" height="90" rx="6" fill="#f5f5f5" stroke="#2d3142" stroke-width="1"/>
+        <rect x="798" y="46" width="46" height="12" rx="2" fill="transparent" stroke="rgba(45,49,66,0.40)" stroke-width="0.8"/>
+        <text x="821" y="55" fill="rgba(45,49,66,0.8)" font-size="7" font-family="'Geist Mono', ui-monospace, monospace" text-anchor="middle">PHASE 5</text>
+        <text x="870" y="76" fill="#2d3142" font-size="12" font-weight="600" font-family="'Geist', system-ui, sans-serif" text-anchor="middle">Org registry</text>
+        <text x="870" y="94" fill="#4f5d75" font-size="9" font-family="'Geist Mono', ui-monospace, monospace" text-anchor="middle">sync · retired-by-org</text>
+
+        <!-- Node 6: Control plane (right-center) -->
+        <rect x="840" y="140" width="280" height="90" rx="6" fill="#f5f5f5" stroke="#2d3142" stroke-width="1"/>
+        <rect x="848" y="146" width="56" height="12" rx="2" fill="transparent" stroke="rgba(45,49,66,0.40)" stroke-width="0.8"/>
+        <text x="876" y="155" fill="rgba(45,49,66,0.8)" font-size="7" font-family="'Geist Mono', ui-monospace, monospace" text-anchor="middle">PHASE 3</text>
+        <text x="980" y="176" fill="#2d3142" font-size="12" font-weight="600" font-family="'Geist', system-ui, sans-serif" text-anchor="middle">Control plane</text>
+        <text x="980" y="194" fill="#4f5d75" font-size="9" font-family="'Geist Mono', ui-monospace, monospace" text-anchor="middle">DPoP · enrollment · HTTP</text>
+
+        <!-- Node 7: Stripe billing (bottom-right) -->
+        <rect x="1000" y="340" width="200" height="90" rx="6" fill="#f5f5f5" stroke="#2d3142" stroke-width="1"/>
+        <rect x="1008" y="346" width="50" height="12" rx="2" fill="transparent" stroke="rgba(45,49,66,0.40)" stroke-width="0.8"/>
+        <text x="1033" y="355" fill="rgba(45,49,66,0.8)" font-size="7" font-family="'Geist Mono', ui-monospace, monospace" text-anchor="middle">PHASE 6</text>
+        <text x="1100" y="376" fill="#2d3142" font-size="12" font-weight="600" font-family="'Geist', system-ui, sans-serif" text-anchor="middle">Stripe billing</text>
+        <text x="1100" y="394" fill="#4f5d75" font-size="9" font-family="'Geist Mono', ui-monospace, monospace" text-anchor="middle">checkout · webhook · trials</text>
+
+        <!-- Node 8: Analytics (bottom-center-right) -->
+        <rect x="700" y="340" width="140" height="90" rx="6" fill="#f5f5f5" stroke="#2d3142" stroke-width="1"/>
+        <rect x="708" y="346" width="44" height="12" rx="2" fill="transparent" stroke="rgba(45,49,66,0.40)" stroke-width="0.8"/>
+        <text x="730" y="355" fill="rgba(45,49,66,0.8)" font-size="7" font-family="'Geist Mono', ui-monospace, monospace" text-anchor="middle">PHASE 7</text>
+        <text x="770" y="376" fill="#2d3142" font-size="12" font-weight="600" font-family="'Geist', system-ui, sans-serif" text-anchor="middle">Analytics</text>
+        <text x="770" y="394" fill="#4f5d75" font-size="9" font-family="'Geist Mono', ui-monospace, monospace" text-anchor="middle">scorecard · cost · calibration</text>
+
+        <!-- Node 9: Enterprise SSO/FIPS/Audit (bottom-center, accent) -->
+        <rect x="560" y="340" width="180" height="90" rx="6" fill="rgba(191,69,32,0.08)" stroke="#bf4520" stroke-width="1.2"/>
+        <rect x="568" y="346" width="48" height="12" rx="2" fill="transparent" stroke="rgba(191,69,32,0.40)" stroke-width="0.8"/>
+        <text x="592" y="355" fill="#bf4520" font-size="7" font-family="'Geist Mono', ui-monospace, monospace" text-anchor="middle">PHASE 8</text>
+        <text x="650" y="376" fill="#2d3142" font-size="12" font-weight="600" font-family="'Geist', system-ui, sans-serif" text-anchor="middle">SSO / FIPS / Audit</text>
+        <text x="650" y="394" fill="#4f5d75" font-size="9" font-family="'Geist Mono', ui-monospace, monospace" text-anchor="middle">OIDC·SAML · FIPS · audit log</text>
+      </svg>

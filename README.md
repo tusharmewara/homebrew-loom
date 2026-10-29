@@ -6,6 +6,54 @@ ecosystem for AI coding tools.
 [![Latest Release](https://img.shields.io/github/v/release/tusharmewara/loom?label=loom)](https://github.com/tusharmewara/loom/releases)
 [![License: MIT](https://img.shields.io/badge/License-MIT-yellow.svg)](https://github.com/tusharmewara/loom/blob/main/LICENSE)
 
+
+## Architecture diagram
+
+The [architecture diagram](./architecture.html) shows the loomd daemon at the center of the ecosystem: the CLI, control plane, license gate, vault RBAC, org registry, Stripe billing, analytics, and SSO/FIPS/audit crates all connect through it.
+
+The diagram opens as a self-contained HTML page with inline SVG — view it directly in the browser or embed it in slides/docs.
+
+<figure>
+  <img src="architecture.svg" alt="Loom architecture — loomd daemon at the center with Phase 2–8 crates around it" style="width:100%;max-width:1260px;height:auto;border:1px solid #e5e5e5;border-radius:8px;background:#fff;">
+  <figcaption style="font-family:system-ui,sans-serif;font-size:0.85rem;color:#666;margin-top:0.5rem;">Loom shared agentic ecosystem — loomd daemon with analytics, SSO/FIPS/audit, billing, and license gate crates. <a href="./architecture.html">View standalone diagram</a></figcaption>
+</figure>
+
+**GitHub-native render (Mermaid):**
+
+```mermaid
+%%{init: {'theme': 'base', 'themeVariables': { 'primaryColor': '#f5f5f5', 'primaryTextColor': '#2d3142', 'primaryBorderColor': '#2d3142', 'lineColor': '#4f5d75', 'secondaryColor': '#ececec', 'tertiaryColor': '#bf4520'}}}%%
+flowchart LR
+    subgraph CP["loomd - daemon center (Phase 2-8)"]
+        direction TB
+        CP1[("loom CLI<br/>loom bin - 37 subcommands")]
+        CP2[("loomd<br/>IPC socket - auto-start")]
+        CP3[("License gate<br/>Ed25519 - unlocks()")]
+        CP4[("Vault RBAC<br/>admin/member - grants")]
+        CP5[("Org registry<br/>sync - retired-by-org")]
+        CP6[("Control plane<br/>DPoP - enrollment - HTTP")]
+        CP7[("Stripe billing<br/>checkout - webhook - trials")]
+        CP8[("Analytics<br/>scorecard - cost - calibration")]
+        CP9[("SSO / FIPS / Audit<br/>OIDC SAML - FIPS - audit log")]
+    end
+
+    CP1 -->|control| CP2
+    CP2 -->|gate| CP3
+    CP2 -->|routes| CP6
+    CP6 -->|RBAC| CP4
+    CP6 -->|pull-through| CP5
+    CP6 -->|webhook/license| CP7
+    CP7 -->|license_issued| CP2
+    CP2 -->|push aggregates| CP8
+    CP2 -.->|OIDC SAML FIPS audit| CP9
+
+    classDef daemon fill:#f5f5f5,stroke:#2d3142,stroke-width:1px,color:#2d3142,font-family:sans-serif
+    classDef focal fill:#fdeee8,stroke:#bf4520,stroke-width:1px,color:#2d3142,font-family:sans-serif
+    class CP1,CP3,CP4,CP5,CP6,CP7,CP8 daemon
+    class CP2,CP9 focal
+```
+
+Copy the Mermaid source: [`architecture.mmd`](./architecture.mmd) — paste into mermaid.live for editing.
+
 ---
 
 ## The Problem
@@ -375,53 +423,6 @@ curl http://cp.example.com:7333/health/ready
 - **On-prem deployments**: Run `loom-cp` with `LOOM_FIPS=1` for FIPS-compliant crypto and `LOOM_AIR_GAP=1` in air-gapped environments where no outbound network is allowed. Encrypt Stripe keys and SAML certs at rest.
 - **Compliance auditing**: Query the audit log to see which admin performed which action, when, and with what outcome — all stored locally in SQLite.
 - **Multi-tool ecosystems**: Install Loom once and every agent tool (Claude Code, jcode, Cursor, Goose, crush, opencode, gemini-cli, kiro, juno, github-copilot) shares skills, MCP servers, sessions, credentials, and workflows without per-tool config.
-
-## Architecture diagram
-
-The [architecture diagram](./architecture.html) shows the loomd daemon at the center of the ecosystem: the CLI, control plane, license gate, vault RBAC, org registry, Stripe billing, analytics, and SSO/FIPS/audit crates all connect through it.
-
-The diagram opens as a self-contained HTML page with inline SVG — view it directly in the browser or embed it in slides/docs.
-
-<figure>
-  <img src="architecture.svg" alt="Loom architecture — loomd daemon at the center with Phase 2–8 crates around it" style="width:100%;max-width:1260px;height:auto;border:1px solid #e5e5e5;border-radius:8px;background:#fff;">
-  <figcaption style="font-family:system-ui,sans-serif;font-size:0.85rem;color:#666;margin-top:0.5rem;">Loom shared agentic ecosystem — loomd daemon with analytics, SSO/FIPS/audit, billing, and license gate crates. <a href="./architecture.html">View standalone diagram</a></figcaption>
-</figure>
-
-**GitHub-native render (Mermaid):**
-
-```mermaid
-%%{init: {'theme': 'base', 'themeVariables': { 'primaryColor': '#f5f5f5', 'primaryTextColor': '#2d3142', 'primaryBorderColor': '#2d3142', 'lineColor': '#4f5d75', 'secondaryColor': '#ececec', 'tertiaryColor': '#bf4520'}}}%%
-flowchart LR
-    subgraph CP["loomd — daemon center (Phase 2–8)"]
-        direction TB
-        CP1[("loom CLI<br/>loom bin · 37 subcommands")]
-        CP2[("loomd<br/>IPC socket · auto-start")]
-        CP3[("License gate<br/>Ed25519 · unlocks()")]
-        CP4[("Vault RBAC<br/>admin/member · grants")]
-        CP5[("Org registry<br/>sync · retired-by-org")]
-        CP6[("Control plane<br/>DPoP · enrollment · HTTP")]
-        CP7[("Stripe billing<br/>checkout · webhook · trials")]
-        CP8[("Analytics<br/>scorecard · cost · calibration")]
-        CP9[("SSO / FIPS / Audit<br/>OIDC·SAML · FIPS · audit log")]
-    end
-
-    CP1 -->|control| CP2
-    CP2 -->|gate| CP3
-    CP2 -->|routes| CP6
-    CP6 -->|RBAC| CP4
-    CP6 -->|pull-through| CP5
-    CP6 -->|webhook/license| CP7
-    CP7 -->|license_issued| CP2
-    CP2 -->|push aggregates| CP8
-    CP2 -.->|OIDC·SAML·FIPS·audit| CP9
-
-    classDef daemon fill:#f5f5f5,stroke:#2d3142,stroke-width:1px,color:#2d3142,font-family:Geist,sans-serif
-    classDef focal fill:rgba(191,69,32,0.08),stroke:#bf4520,stroke-width:1.4px,color:#2d3142,font-family:Geist,sans-serif
-    class CP1,CP3,CP4,CP5,CP6,CP7,CP8 daemon
-    class CP2,CP9 focal
-```
-
-Copy the Mermaid source: [`architecture.mmd`](./architecture.mmd) — paste into mermaid.live for editing.
 
 ## License
 

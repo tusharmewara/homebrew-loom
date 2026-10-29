@@ -1,17 +1,17 @@
 class Loom < Formula
   desc "Unified agentic ecosystem for sharing skills, sessions, and MCP servers"
   homepage "https://github.com/tusharmewara/loom"
-  version "0.11.0"
+  version "0.12.0"
   license "MIT"
 
-  url "https://github.com/tusharmewara/loom/archive/refs/tags/v0.11.0.tar.gz"
-  sha256 "b577b4130f5ed82ffc782282c29a2ccf9dabc9601636af1bf0db48a4cc447ab2"
+  url "https://github.com/tusharmewara/loom/archive/refs/tags/v0.12.0.tar.gz"
+  sha256 "cef3eaab8e464161f71baa88fbc1626b805bde1f9a4af9b274adaf8858a54c84"
 
   bottle do
-    root_url "https://github.com/tusharmewara/homebrew-loom/releases/download/v0.11.0-bottles"
-    sha256 cellar: :any, arm64_sonoma: "20545c38aaf5af795a1d1108f02f489a8240f5bb191275710d3a6944118b95ac"
-    sha256 cellar: :any, sonoma: "ca15ec505e2dfabae4ef642407854c0ceabf22edeb6e7f41bef0391acf12b22d"
-    sha256 cellar: :any_skip_relocation, x86_64_linux: "3d2c50afef7618f338ddb457e41a460657805ff257795e46f81a781deac474a7"
+    root_url "https://github.com/tusharmewara/homebrew-loom/releases/download/v0.12.0-bottles"
+    sha256 cellar: :any, arm64_sonoma: "7787727a13e386cb6b3b3e67e8534be09a0e78bf68b7f3f9aee72ce0f46473ad"
+    sha256 cellar: :any, sonoma: "dd5767cb9b7741171481940ccad1b35fd718198da166d66ca93555e79766b2bb"
+    sha256 cellar: :any_skip_relocation, x86_64_linux: "db624dfacddfe942d00875238f35783838db459a54502814e4a006dd7c691ea8"
 
   end
 

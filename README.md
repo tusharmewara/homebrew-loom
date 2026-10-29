@@ -329,6 +329,53 @@ loom daemon uninstall-service      Remove the user service
 └── mcp_registry.db      # MCP registry (SQLite)
 ```
 
+## Latest Release — v0.12.0
+
+### Features added
+
+| Area | What's new |
+|------|-----------|
+| **Analytics** | `loom org analytics` / `scorecard` / `cost` / `calibration` — org-level rollups, per-tool breakdowns, cost-only views, and measured-vs-estimated calibration ratios. Push-only model: hosts push aggregated buckets; the control plane never stores per-run data (structural privacy invariant). |
+| **SSO Federation** | OIDC (OAuth 2.1 + PKCE) and SAML 2.0 support for Entra ID, Okta, Google Workspace, ADFS. `loom org connect --sso` initiates device-code or browser flows. JIT human provisioning with seat cap enforcement. |
+| **On-prem hardening** | FIPS mode via `ring` (`LOOM_FIPS=1`), air-gap mode (`LOOM_AIR_GAP=1` blocks all outbound calls), AES-256-GCM config encryption for secrets at rest (`loom-cp config encrypt/decrypt`). |
+| **Audit logging** | Structured audit log in SQLite (`{loom_dir}/control-plane/audit.db`) — actor, action, resource, outcome, timestamp. Query via `GET /api/v1/org/{org_id}/audit`. |
+| **Readiness probe** | `/health/ready` endpoint reports DB, Stripe, FIPS, and air-gap status. |
+| **Control plane endpoints** | `POST /api/v1/org/{org_id}/analytics/push`, `GET /api/v1/org/{org_id}/analytics`, `GET/PUT /api/v1/org/{org_id}/sso`, SAML metadata/ACS, OIDC authorize/callback. |
+
+### Usage examples
+
+```bash
+# Install v0.12.0
+brew tap tusharmewara/loom
+brew install loom
+
+# Initialize and start the daemon
+loom init
+brew services start loom
+
+# Connect to a control plane with SSO
+loom org connect --sso http://cp.example.com:7333 --org acme
+
+# Push analytics from a host
+# (host-side: aggregate local usage ledger into per-org/tool/day buckets)
+# then view on any machine:
+loom org analytics --org acme --format table
+loom org scorecard --org acme --format json
+loom org cost --org acme --format table
+loom org calibration --org acme
+
+# Check control plane health
+curl http://cp.example.com:7333/health/ready
+```
+
+### Use cases
+
+- **Enterprise SSO**: Let your org's humans sign in with their existing IdP (Entra ID, Okta, Google, ADFS) instead of managing separate Loom credentials. First SSO login creates the human in the roster (JIT provisioning), subject to seat cap.
+- **Team cost visibility**: Push per-tool aggregated usage from each host, then view org-wide scorecards to see which tools are driving cost and how accurate the `chars/4` cost estimator is (calibration view).
+- **On-prem deployments**: Run `loom-cp` with `LOOM_FIPS=1` for FIPS-compliant crypto and `LOOM_AIR_GAP=1` in air-gapped environments where no outbound network is allowed. Encrypt Stripe keys and SAML certs at rest.
+- **Compliance auditing**: Query the audit log to see which admin performed which action, when, and with what outcome — all stored locally in SQLite.
+- **Multi-tool ecosystems**: Install Loom once and every agent tool (Claude Code, jcode, Cursor, Goose, crush, opencode, gemini-cli, kiro, juno, github-copilot) shares skills, MCP servers, sessions, credentials, and workflows without per-tool config.
+
 ## License
 
 MIT
